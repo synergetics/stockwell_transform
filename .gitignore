@@ -52,3 +52,12 @@ docs/_build/
 
 # PyBuilder
 target/
+syntax: glob
+*~
+*.o
+*.so
+*.pyc
+build/*
+stockwell.egg-info*
+\#*\#
+.*
