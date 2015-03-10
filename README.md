@@ -1,6 +1,8 @@
 Stockwell Transform
 ======
 
+![Sample Image](https://raw.githubusercontent.com/synergetics/stockwell_transform/master/examples/Multi-taper%20Stockwell%20transform%20spectrogram.png)
+
 ## Contains
 1. c code
 - python module
