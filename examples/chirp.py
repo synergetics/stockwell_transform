@@ -1,7 +1,8 @@
 from pylab import *
 import scipy.signal as signal
 import stockwell.smt as smt
-signal.chirp 
+
+signal.chirp
 #?signal.chirp
 t=linspace(0,10,num=1000)
 ch = signal.chirp(t,1.0,6.0,20.0)

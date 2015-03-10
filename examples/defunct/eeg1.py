@@ -36,7 +36,7 @@ s.shape
 figure()
 imshow(s)
 import scipy.signal as signal
-signal.chirp 
+signal.chirp
 #?signal.chirp
 t=lin(0,10,n=1000)
 t=linspace(0,10,n=1000)
@@ -65,7 +65,7 @@ lasre = np.abs(las)
 lasre.shape
 lasre.dtype
 figure(); imshow(lasre)
-MemoryError 
+MemoryError
 figure(); imshow(lasre[0:100,0:2000])
 figure(); imshow(lasre[0:500,0:2000])
 figure(); imshow(lasre[0:500,0:5000])
