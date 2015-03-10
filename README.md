@@ -35,39 +35,58 @@ sudo python ./setup.py install
 
 ```python
 
-from pylab import *
+import numpy as np
+import stockwell.smt as smt
+import stockwell
 
-# The way the basic module works is, for a signal x
-y = stockwell.smt.st(x)
-# will return its complex valued transform
-# the amplitude "spectra" can be obtained with
+import matplotlib.pyplot as plt
 
-ampy = abs(y)
+Fs = 200 # frequency
+P = 1.0/Fs # time steps
+T = 10.0 # max time
+t = np.arange(0,T,P) # generate a time sequence
+L = len(t)
+twopi = 2*np.pi
 
-# The rows in the interval [0,n/2) label the number of cycles during
-# the entire period of x (ie, it uses the length L of x as the longest
-# time)
+# create a list of different sin waves at different frequencies
+ss = [np.sin(twopi*f*t) for f in [5,10,20,30,50]]
+y = np.zeros(L,dtype='float64')
 
-# So, to covert this back to hz
-# Let
-# Fs=<sampling interval in Hz>
+for s in ss:
+    y += s
 
-# Let
-Tn = float(L * Fs) # total time, say in seconds, of x
+# get the stockwell transform
+sy = smt.st(y)
+rsy = abs(sy)
 
-# row ii -> ii/L
-# Then the freq of row ii is
-freq[ii] = ii/Tn
+f = plt.figure()
+
+def plotspec(psx, fs, lofreq=None, hifreq=None, t1=None, t2=None):
+    extent = [0,psx.shape[1], 0.0, fs/2.0]
+    if t1 != None and t2 != None:
+        extent[0] = t1
+        extent[1] = t2
+    if lofreq != None:
+        extent[2] = lofreq
+    if hifreq != None:
+        extent[3] = hifreq
+
+    return plt.imshow(psx, extent=extent, aspect='auto', origin='lower')
+
+plotspec(rsy, fs=Fs, t1=0, t2=T)
+plt.show()
 
 ```
+
+![Sample](https://raw.githubusercontent.com/synergetics/stockwell_transform/master/examples/synthetic2.png)
 
 ## Origin
 
 Code from Dr. Stockwell's web site for the stockwell transform
 
-http://www.cora.nwra.com/~stockwel/index.php?module=fatcat&fatcat[user]=viewCategory&fatcat_id=2&module_title=pagemaster
-
+```
 Stockwell, R.G, L mansinha, and R. P. Lowe. Localization of the complex spectrum: The S-Transform. IEEE Transactions on Signal Processing, 44(4) pp998--1001, 1996.
+```
 
 This repository has been forked from https://bitbucket.org/cleemesser/stockwelltransform
 
