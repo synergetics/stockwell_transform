@@ -1,5 +1,7 @@
 /* Stockwell Transform wrapper code. */
 
+// #define NPY_NO_DEPRECATED_API  0x00000007
+
 #include <Python.h>
 #include <arrayobject.h>
 

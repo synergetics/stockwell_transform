@@ -7,17 +7,29 @@ Stockwell Transform
 
 ## Requirements for compilation
 
+GCC
+```bash
+sudo apt-get install gcc
+```
+
 fftw3 libraries
-a C compiler (tested with gcc so far)
+
+```bash
+sudo apt-get install libfftw3-dev
+```
+
 numpy (tested with 1.3)
+```bash
+sudo pip install numpy
+```
 
+## Build and Install
 
-see also
-Code from Dr. Stockwell's web site for the stockwell transform
+```bash
+python ./setup.py build
+sudo python ./setup.py install
+```
 
-http://www.cora.nwra.com/~stockwel/index.php?module=fatcat&fatcat[user]=viewCategory&fatcat_id=2&module_title=pagemaster
-
-Stockwell, R.G, L mansinha, and R. P. Lowe. Localization of the complex spectrum: The S-Transform. IEEE Transactions on Signal Processing, 44(4) pp998--1001, 1996.
 
 ## Usage
 
@@ -49,13 +61,23 @@ freq[ii] = ii/Tn
 
 ```
 
+## Origin
+
+Code from Dr. Stockwell's web site for the stockwell transform
+
+http://www.cora.nwra.com/~stockwel/index.php?module=fatcat&fatcat[user]=viewCategory&fatcat_id=2&module_title=pagemaster
+
+Stockwell, R.G, L mansinha, and R. P. Lowe. Localization of the complex spectrum: The S-Transform. IEEE Transactions on Signal Processing, 44(4) pp998--1001, 1996.
 
 This repository has been forked from https://bitbucket.org/cleemesser/stockwelltransform
 
-Code from the NIH core imaging group MEG
+C Code from the NIH core imaging group MEG
 http://kurage.nimh.nih.gov/meglab/Meg/Stockwell
 
 **Note**, the NIH imaging center also has multidimensional stockwell transforms
 
 
+## FAQ
+
+- How do I use it on windows? http://www.getgnulinux.org
 
