@@ -1,6 +1,6 @@
 /* Stockwell Transform wrapper code. */
 
-// #define NPY_NO_DEPRECATED_API  0x00000007
+// #define NPY_NO_DEPRECATED_API	0x00000007
 
 #include <Python.h>
 #include <arrayobject.h>
@@ -21,8 +21,8 @@ dim[0]=hi-lo+1, dim[1] = n";
 
 static PyObject *st_wrap(PyObject *self, PyObject *args)
 {
-  int n;
-  npy_intp dim[2];
+	int n;
+	npy_intp dim[2];
 	int lo = 0;
 	int hi = 0;
 	PyObject *o;
@@ -32,6 +32,7 @@ static PyObject *st_wrap(PyObject *self, PyObject *args)
 		return NULL;
 	}
 
+	PyObject_Print(o, stdout, 0);
 	a = (PyArrayObject *)
 		PyArray_ContiguousFromObject(o, PyArray_DOUBLE, 1, 1);
 	if (a == NULL) {
@@ -63,8 +64,8 @@ array y.";
 
 static PyObject *ist_wrap(PyObject *self, PyObject *args)
 {
-  int n, m;
-  npy_intp dim[1];
+	int n, m;
+	npy_intp dim[1];
 	int lo = 0;
 	int hi = 0;
 	PyObject *o;
@@ -109,8 +110,8 @@ static char Doc_hilbert[] =
 
 static PyObject *hilbert_wrap(PyObject *self, PyObject *args)
 {
-  int n;
-  npy_intp  dim[1];
+	int n;
+	npy_intp	dim[1];
 	PyObject *o;
 	PyArrayObject *a, *r;
 
@@ -145,8 +146,61 @@ static PyMethodDef Methods[] = {
 	{ NULL, NULL, 0, NULL }
 };
 
+
+
+struct module_state {
+		PyObject *dummy;
+};
+
+#if PY_MAJOR_VERSION >= 3
+	#define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#else
+	#define GETSTATE(m) (&_state)
+	static struct module_state _state;
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+
+	static int st_traverse(PyObject *m, visitproc visit, void *arg) {
+			Py_VISIT(GETSTATE(m)->dummy);
+			return 0;
+	}
+
+	static int st_clear(PyObject *m) {
+			Py_CLEAR(GETSTATE(m)->dummy);
+			return 0;
+	}
+
+	static struct PyModuleDef moduledef = {
+					PyModuleDef_HEAD_INIT,
+					"st",
+					NULL,
+					sizeof(struct module_state),
+					Methods,
+					NULL,
+					st_traverse,
+					st_clear,
+					NULL
+	};
+
+	#define INITERROR return NULL
+
+PyMODINIT_FUNC
+PyInit_st(void)
+#else
+#define INITERROR return
 void initst(void)
+#endif
 {
-	Py_InitModule("st", Methods);
+#if PY_MAJOR_VERSION >= 3
+	PyObject *module = PyModule_Create(&moduledef);
+#else
+	PyObject *module = Py_InitModule("st", Methods);
 	import_array();
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+	return module;
+#endif
 }
+

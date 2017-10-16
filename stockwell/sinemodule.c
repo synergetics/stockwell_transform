@@ -48,8 +48,60 @@ static PyMethodDef Methods[] = {
 	{ NULL, NULL, 0, NULL }
 };
 
-void initsine()
+
+struct module_state {
+		PyObject *dummy;
+};
+
+#if PY_MAJOR_VERSION >= 3
+	#define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#else
+	#define GETSTATE(m) (&_state)
+	static struct module_state _state;
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+
+	static int sine_traverse(PyObject *m, visitproc visit, void *arg) {
+			Py_VISIT(GETSTATE(m)->dummy);
+			return 0;
+	}
+
+	static int sine_clear(PyObject *m) {
+			Py_CLEAR(GETSTATE(m)->dummy);
+			return 0;
+	}
+
+	static struct PyModuleDef moduledef = {
+					PyModuleDef_HEAD_INIT,
+					"sine",
+					NULL,
+					sizeof(struct module_state),
+					Methods,
+					NULL,
+					sine_traverse,
+					sine_clear,
+					NULL
+	};
+
+	#define INITERROR return NULL
+
+PyMODINIT_FUNC
+PyInit_sine(void)
+#else
+#define INITERROR return
+void initsine(void)
+#endif
 {
-	Py_InitModule("sine", Methods);
+#if PY_MAJOR_VERSION >= 3
+	PyObject *module = PyModule_Create(&moduledef);
+#else
+	PyObject *module = Py_InitModule("sine", Methods);
 	import_array();
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+	return module;
+#endif
 }
+

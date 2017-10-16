@@ -19,7 +19,7 @@ chs = smt.mtst(K,chtapers, ch, 0,len(ch)/2)
 #figure(); subplot(211); plot(ch); subplot(212); imshow(chs); axis('auto')
 ## now try a longer signal
 
-import stockwell.plot as stplot
+import stockwell.plots as stplot
 
 print "powerstack of multitaper version of signal"
 stplot.stpowerstack(ch, chs)

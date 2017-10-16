@@ -96,6 +96,7 @@ def stpowerstack(x,stx):
     ylocs,ylabels = plt.yticks()
     #plt.ylabel('st-row(f*L/fs)')
     yt,xt = stx.shape
+    plt.show()
 
     return ax2
 
@@ -114,34 +115,34 @@ def timefreqplot(x,fs, lo=0,hi=0,title=None):
         hi = fs/2.0
     else:
         hi_n = stockwell.stfreq(hi, n, fs)
-        print "stfreq(hi,n,fs):", hi
-    print "setting hi", hi, hi_n
-    
+        print("stfreq(hi,n,fs):", hi)
+    print("setting hi", hi, hi_n)
+
     if not lo:
         lo = 0.0
         lo_n = 0
     else:
         lo_n = stockwell.stfreq(lo, n, fs)
-        print "stfreq(lo,n,fs):", lo
-    print "setting low", lo, lo_n
+        print("stfreq(lo,n,fs):", lo)
+    print("setting low", lo, lo_n)
 
     fig,ax = plt.subplots(nrows=2,ncols=1, sharex=True)
 
     if title: ax.set_title(title)
-    psx = abs(stockwell.st(x,lo_n,hi_n)) 
-    print "psx.shape:", psx.shape
+    psx = abs(stockwell.st(x,lo_n,hi_n))
+    print("psx.shape:", psx.shape)
     si = 1.0/fs
     ax[0].plot(np.arange(0,n)*si, x)
 
     #extents =  _get_specgram_plot_extents(psx, fs=fs, lofreq=lo, hifreq=hi,t0=0, t1=n/float(fs))
     extents = _get_specgram_plot_extents(psx, fs=fs, lofreq=lo, hifreq=hi,t0=0, t1=n/float(fs))
-    print extents
+    print(extents)
     ax[1].set_ylabel('Hz')
     ax[1].imshow(psx, extent=extents,aspect='auto', origin='lower')
     return fig, ax, psx
 
 
-    
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()

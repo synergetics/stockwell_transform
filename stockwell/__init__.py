@@ -1,7 +1,7 @@
 """
 modules:
 st  - link to C implementation
-smt - multitaper stockwell transform 
+smt - multitaper stockwell transform
 get from st module:
 
 hilbert(x) returns the complex Hilbert transform of the real array x.
@@ -27,7 +27,7 @@ def stfreq(f,length, srate):
 
         note: length * (1.0/srate)
       	# in C this would be:  return floor(f * len / srate + .5);
-        
+
         """
         # return int( f*(length//srate)+0.5)
 	return int(round(f*length/srate))
