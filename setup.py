@@ -26,6 +26,9 @@ stext = Extension("st", sources=["stockwell/st.c"],
 
 setup(
   name = 'stockwell',
-  version="0.0.5",
+  version="0.1.0",
   ext_modules = [stext],
+  packages=['stockwell'],
+  py_modules = ["stockwell/__init__"],
+
 )

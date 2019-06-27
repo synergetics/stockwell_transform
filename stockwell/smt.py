@@ -25,7 +25,7 @@ def calcbw(K, N, srate):
 # Precompute the tapers.
 
 def calc_tapers(K, N):
-	return map(lambda k, N = N: sine_taper(k, N), npy.arange(K))
+	return list(map(lambda k, N = N: sine_taper(k, N), npy.arange(K)))
 
 # Multitaper Stockwell transform.
 
@@ -35,7 +35,7 @@ def mtst(K, tapers, x, lo, hi):
 	s = 0.
 	n = 0.
 	for k in range(K):
-		X = st(tapers[k] * x, lo, hi)
+		X = st(tapers[k] * x, int(lo), int(hi))
 		mu = 1. - k * k / K2
 		s += mu * abs(X)**2
 		n += mu
