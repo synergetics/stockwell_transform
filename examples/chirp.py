@@ -21,5 +21,5 @@ chs = smt.mtst(K,chtapers, ch, 0,len(ch)/2)
 
 import stockwell.plots as stplot
 
-print "powerstack of multitaper version of signal"
+print("powerstack of multitaper version of signal")
 stplot.stpowerstack(ch, chs)

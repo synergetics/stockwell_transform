@@ -19,15 +19,16 @@ if sys.platform=='win32':
     include_dirs = [os.path.join(NUMPYDIR, r'include/numpy'), r"c:\pythonxy\local\include"]
     libraries=['fftw3-3']
 
-stext = Extension("st", sources=["stockwell/stmodule.c", "stockwell/st.c"],
+stext = Extension("st", sources=["stockwell/st.c"],
     libraries=libraries,
     include_dirs=include_dirs,
     library_dirs=library_dirs)
 
-sineext= Extension("sine", ["stockwell/sinemodule.c"], include_dirs=include_dirs)
-
 setup(
   name = 'stockwell',
-  version="0.0.5",
-  ext_modules = [stext,sineext],
+  version="0.1.0",
+  ext_modules = [stext],
+  packages=['stockwell'],
+  py_modules = ["stockwell/__init__"],
+
 )

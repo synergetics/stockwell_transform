@@ -14,7 +14,7 @@ ist(y[, lo, hi]) returns the inverse Stockwell transform of the 2d, complex\n\
 array y.
 
 """
-from __future__ import division
+
 
 # import the methods implemented in C
 from st import st, ist, hilbert

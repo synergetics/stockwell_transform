@@ -1,11 +1,11 @@
 import sys
 import numpy as npy
-from sine import sine_taper
-
+from numpy import arange, sin, sqrt, pi
 
 from st import st
 
 from math import sqrt
+
 
 def calcK(bw, N, srate):
 	"""Calculate K for a given bandwidth, length, and sampling rate.
@@ -25,7 +25,7 @@ def calcbw(K, N, srate):
 # Precompute the tapers.
 
 def calc_tapers(K, N):
-	return map(lambda k, N = N: sine_taper(k, N), npy.arange(K))
+	return list(map(lambda k, N = N: sine_taper(k, N), npy.arange(K)))
 
 # Multitaper Stockwell transform.
 
@@ -35,12 +35,18 @@ def mtst(K, tapers, x, lo, hi):
 	s = 0.
 	n = 0.
 	for k in range(K):
-		X = st(tapers[k] * x, lo, hi)
+		X = st(tapers[k] * x, int(lo), int(hi))
 		mu = 1. - k * k / K2
 		s += mu * abs(X)**2
 		n += mu
 	s *= N / n
 	return s
 
+# Riedel & Sidorenko sine tapers.
+def sine_taper(k, N):
+	"Compute the kth sine taper of length N"
 
+	s = sqrt(2. / (N + 1))
+	d = arange(N, dtype = 'd')
+	return s * sin(pi * (k + 1) * (d + 1.) / (N + 1))
 
