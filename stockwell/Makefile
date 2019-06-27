@@ -1,12 +1,16 @@
-#PYINCDIR = /usr/include/python2.4
-PYINCDIR = /usr/include/python2.6
-NUMPYDIR = /usr/lib/python2.6/dist-packages/numpy/core/include/numpy
-CFLAGS = -O3 -I$(PYINCDIR) -I$(NUMPYDIR) -fPIC
 
-all:	sinemodule.so stmodule.so
+CFLAGS = $(shell python-config --includes) $(shell python -c "import numpy; print('-I' + numpy.get_include())") -fPIC
+LDFLAGS = -L .
 
-sinemodule.so:	sinemodule.o
-	$(CC) -shared -o $@ sinemodule.o
+all:	_stockwell.so
 
-stmodule.so:	stmodule.o st.o
-	$(CC) -shared -o $@ stmodule.o st.o -lfftw3
+_stockwell.so: sine.o st.o
+	swig -python ./stockwell.i
+	$(CC) -shared -fPIC $(CFLAGS) $(LDFLAGS) -o _stockwell.so sine.c st.c stockwell_wrap.c -lfftw3
+
+clean:
+	find . -name "*.o" | xargs rm -rf
+	find . -name "*.so" | xargs rm -rf
+	find . -name "*.pyc" | xargs rm -rf
+	rm -rf stockwell_wrap.c
+	rm -rf stockwell.py

@@ -1,5 +1,7 @@
+from matplotlib import pylab
 from pylab import *
 import scipy.signal as signal
+import stockwell
 import stockwell.smt as smt
 
 signal.chirp
@@ -10,6 +12,7 @@ ch = signal.chirp(t,1.0,6.0,20.0)
 #plot(t,ch)
 K=4; N=len(t)
 tapers = smt.calc_tapers(K,N)
+# breakpoint()
 chs = smt.mtst(K,tapers, ch, 0,len(ch)/2)
 chtapers = smt.calc_tapers(K,len(ch))
 chs = smt.mtst(K,chtapers, ch, 0,len(ch)/2)
@@ -21,5 +24,5 @@ chs = smt.mtst(K,chtapers, ch, 0,len(ch)/2)
 
 import stockwell.plots as stplot
 
-print "powerstack of multitaper version of signal"
+print("powerstack of multitaper version of signal")
 stplot.stpowerstack(ch, chs)

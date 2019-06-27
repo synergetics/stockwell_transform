@@ -4,6 +4,8 @@
 #include <math.h>
 #include <fftw3.h>
 
+#include "stockwell.h"
+
 char *Wisfile = NULL;
 char *Wistemplate = "%s/.fftwis";
 #define WISLEN 8
@@ -169,7 +171,7 @@ void st(int len, int lo, int hi, double *data, double *result)
 
     /* Inverse FFT the result to get the next row. */
 
-    fftw_execute(p2); /* G -> h */
+    // fftw_execute(p2); /* G -> h */
     for (i = 0; i < len; i++) {
       *p++ = h[i][0] / len;
       *p++ = h[i][1] / len;

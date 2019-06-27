@@ -1,7 +1,8 @@
 """
 provide matplotlib-based visualization functions for stockwell transforms
 """
-import stockwell
+from .stockwell import st, st_freq
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -32,11 +33,11 @@ def plotspec(psx, fs=2.0, lofreq=None, hifreq=None, t0=None, t1=None):
     example:
     # for a signal x, with sampling frequency 200
     >>> import stockwell, pylab
-    >>> import stockwell.plots as plots
+    >>> import plots as plots
     >>> x = pylab.zeros(1000.0) # 5 seconds
     >>> fs = 200 # sample rate
     >>> x[250:350] = 1.0 # step function
-    >>> sx = stockwell.st(x)
+    >>> sx = st(x)
     >>> psx = abs(sx) # create power
     >>> r=plots.plotspec(psx,200)
     >>> # pylab.show() # to visualize this
@@ -71,12 +72,12 @@ def stspecgram(x,fs,lofreq=None, hifreq=None, t0=None, t1=None):
         t1=n/float(fs)+t0
 
     if lofreq==None and hifreq==None:
-        sx=stockwell.st(x)
+        sx=st(x)
         return plotspec(abs(sx),fs, t0=t0,t1=t1)
 
-    lorow=stockwell.stfreq(lofreq,n,fs)
-    hirow=stockwell.stfreq(hifreq,n,fs)
-    sx=stockwell.st(x, lorow,hirow)
+    lorow=st_freq(lofreq,n,fs)
+    hirow=st_freq(hifreq,n,fs)
+    sx=st(x, lorow,hirow)
     return plotspec(abs(sx), fs, lofreq=lofreq,hifreq=hifreq, t0=t0,t1=t1)
 
 
@@ -106,7 +107,7 @@ def timefreqplot(x,fs, lo=0,hi=0,title=None):
     plot a signal and its spectrogram
     defaultis to find the entire frequency band (lo->0.0, hi-> n/2)
 
-    lo (Hz) gets transformed to the sample-based lo_n for use with stockwell.st
+    lo (Hz) gets transformed to the sample-based lo_n for use with st
     hi (Hz)
     """
     n = len(x)
@@ -114,22 +115,22 @@ def timefreqplot(x,fs, lo=0,hi=0,title=None):
         hi_n = int(n/2) # float(fs/2)
         hi = fs/2.0
     else:
-        hi_n = stockwell.stfreq(hi, n, fs)
-        print("stfreq(hi,n,fs):", hi)
+        hi_n = st_freq(hi, n, fs)
+        print("st_freq(hi,n,fs):", hi)
     print("setting hi", hi, hi_n)
 
     if not lo:
         lo = 0.0
         lo_n = 0
     else:
-        lo_n = stockwell.stfreq(lo, n, fs)
-        print("stfreq(lo,n,fs):", lo)
+        lo_n = st_freq(lo, n, fs)
+        print("st_freq(lo,n,fs):", lo)
     print("setting low", lo, lo_n)
 
     fig,ax = plt.subplots(nrows=2,ncols=1, sharex=True)
 
     if title: ax.set_title(title)
-    psx = abs(stockwell.st(x,lo_n,hi_n))
+    psx = abs(st(x,lo_n,hi_n))
     print("psx.shape:", psx.shape)
     si = 1.0/fs
     ax[0].plot(np.arange(0,n)*si, x)

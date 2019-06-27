@@ -17,7 +17,10 @@ array y.
 from __future__ import division
 
 # import the methods implemented in C
-from st import st, ist, hilbert
+from .stockwell import *
+from .smt import *
+from .plots import *
+
 
 def stfreq(f,length, srate):
 	"""
