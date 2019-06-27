@@ -9,29 +9,18 @@ Stockwell Transform
 
 ## Requirements for compilation
 
-GCC
-```bash
-sudo apt-get install gcc
-```
-
 fftw3 libraries
 
 ```bash
-sudo apt-get install libfftw3-dev
-```
-
-numpy (tested with 1.3)
-```bash
-sudo pip install numpy
+(sudo) apt-get install libfftw3-dev python3-dev
+(sudo) pip install numpy
 ```
 
 ## Build and Install
 
 ```bash
-python ./setup.py build
-sudo python ./setup.py install
+(sudo) pip install stockwell
 ```
-
 
 ## Usage
 
